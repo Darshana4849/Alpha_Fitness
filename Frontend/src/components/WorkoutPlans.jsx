@@ -113,7 +113,7 @@ const WorkoutPlans = () => {
               backgroundColor: '#2ecc71',
               color: 'white',
               border: 'none',
-              padding: '8px 15px',
+              padding: '8px 15px',     //pading
               borderRadius: '5px',
               cursor: 'pointer',
               fontWeight: '500'
