@@ -123,7 +123,7 @@ function SkillSharingPosts() {
         }
     }
 
-    async function update(event) {
+    async function update(event) {    //Add funtion
         event.preventDefault();
         setLoading(true);
         setError(null);
