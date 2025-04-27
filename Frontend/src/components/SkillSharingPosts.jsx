@@ -31,7 +31,7 @@ function SkillSharingPosts() {
             console.log("Loaded posts data:", result.data);
             setPosts(result.data);
             
-            // Initialize liked posts state
+            // initialise liked posts state
             const likesState = {};
             result.data.forEach(post => {
                 if (post.likedBy && post.likedBy.includes(localStorage.getItem('userId'))) {
