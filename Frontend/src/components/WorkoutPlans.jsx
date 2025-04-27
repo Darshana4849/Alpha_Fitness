@@ -71,7 +71,7 @@ const WorkoutPlans = () => {
       {/* Header style */}
       <div style={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between',      //justify content
         alignItems: 'center',
         marginBottom: '30px',
         position: 'relative'
@@ -81,7 +81,7 @@ const WorkoutPlans = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: '#e74c3c',
+            backgroundColor: '#e74c3c',  //background colour
             color: 'white',
             border: 'none',
             padding: '8px 15px',
@@ -113,7 +113,7 @@ const WorkoutPlans = () => {
               backgroundColor: '#2ecc71',
               color: 'white',
               border: 'none',
-              padding: '8px 15px',
+              padding: '8px 15px',     //pading
               borderRadius: '5px',
               cursor: 'pointer',
               fontWeight: '500'

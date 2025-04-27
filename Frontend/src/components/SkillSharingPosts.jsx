@@ -31,7 +31,7 @@ function SkillSharingPosts() {
             console.log("Loaded posts data:", result.data);
             setPosts(result.data);
             
-            // Initialize liked posts state
+            // initialise liked posts state
             const likesState = {};
             result.data.forEach(post => {
                 if (post.likedBy && post.likedBy.includes(localStorage.getItem('userId'))) {
@@ -101,7 +101,7 @@ function SkillSharingPosts() {
         }
     }
 
-    async function editPost(post) {
+    async function editPost(post) {      //function decleare
         setTitle(post.title);
         setContent(post.content);
         setAuthor(post.author);
@@ -123,7 +123,7 @@ function SkillSharingPosts() {
         }
     }
 
-    async function update(event) {
+    async function update(event) {    //Add funtion
         event.preventDefault();
         setLoading(true);
         setError(null);
