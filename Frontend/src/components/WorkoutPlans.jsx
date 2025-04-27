@@ -81,7 +81,7 @@ const WorkoutPlans = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: '#e74c3c',
+            backgroundColor: '#e74c3c',  //background colour
             color: 'white',
             border: 'none',
             padding: '8px 15px',
