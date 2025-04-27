@@ -22,7 +22,7 @@ const WorkoutPlans = () => {
     }
   }
 
-  // Delete workout plan
+  // Delete workouts plan 
   async function deleteWorkoutPlan(workoutId) {
     if (window.confirm("Are you sure you want to delete this workout plan?")) {
       try {
@@ -68,7 +68,7 @@ const WorkoutPlans = () => {
       backgroundColor: '#f8f9fa',
       minHeight: '100vh'
     }}>
-      {/* Header */}
+      {/* Header style */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
