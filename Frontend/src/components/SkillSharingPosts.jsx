@@ -101,7 +101,7 @@ function SkillSharingPosts() {
         }
     }
 
-    async function editPost(post) {
+    async function editPost(post) {      //function decleare
         setTitle(post.title);
         setContent(post.content);
         setAuthor(post.author);
