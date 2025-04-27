@@ -174,7 +174,7 @@ function SkillSharingPosts() {
             }));
         }
     };
-
+     /// Change Comment
     const handleCommentChange = (postId, value) => {
         setCommentInputs(prev => ({
             ...prev,
