@@ -71,7 +71,7 @@ const WorkoutPlans = () => {
       {/* Header style */}
       <div style={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between',      //justify content
         alignItems: 'center',
         marginBottom: '30px',
         position: 'relative'
