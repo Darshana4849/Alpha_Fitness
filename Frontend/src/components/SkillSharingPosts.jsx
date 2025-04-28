@@ -101,7 +101,7 @@ function SkillSharingPosts() {
         }
     }
 
-    async function editPost(post) {      //function decleare
+    async function editPost(post) {
         setTitle(post.title);
         setContent(post.content);
         setAuthor(post.author);
@@ -123,7 +123,7 @@ function SkillSharingPosts() {
         }
     }
 
-    async function update(event) {    //Add funtion
+    async function update(event) {
         event.preventDefault();
         setLoading(true);
         setError(null);
@@ -262,9 +262,9 @@ function SkillSharingPosts() {
 
     return (
         <div style={{
-            maxWidth: "1200px",
+            maxWidth: "935px", // Instagram's desktop width
             margin: "0 auto",
-            padding: "20px",
+            padding: "20px 0", // Reduced side padding
             fontFamily: "'Poppins', sans-serif"
         }}>
             <h1 style={{
@@ -685,71 +685,110 @@ function SkillSharingPosts() {
                         {posts.map((post) => (
                             <div key={post._id} style={{
                                 backgroundColor: "#ffffff",
-                                borderRadius: "12px",
-                                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+                                borderRadius: "8px",
+                                boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
                                 overflow: "hidden",
-                                transition: "all 0.3s ease"
+                                transition: "all 0.3s ease",
+                                border: "1px solid #dbdbdb" // Instagram-like border
                             }}>
-                                <div style={{ padding: "30px" }}>
-                                    <h3 style={{
-                                        color: "#2c3e50",
-                                        marginBottom: "10px",
-                                        fontSize: "1.5rem",
-                                        fontWeight: "600",
-                                        lineHeight: "1.3"
-                                    }}>{post.title}</h3>
-                                    <p style={{
-                                        color: "#7f8c8d",
-                                        marginBottom: "15px",
-                                        fontStyle: "italic",
-                                        fontSize: "0.95rem",
+                                {/* Post header */}
+                                <div style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    padding: "14px 16px",
+                                    borderBottom: "1px solid #efefef"
+                                }}>
+                                    <div style={{
+                                        width: "32px",
+                                        height: "32px",
+                                        borderRadius: "50%",
+                                        backgroundColor: "#f0f0f0",
+                                        marginRight: "12px",
                                         display: "flex",
                                         alignItems: "center",
-                                        gap: "8px"
+                                        justifyContent: "center",
+                                        fontWeight: "bold",
+                                        color: "#262626"
                                     }}>
-                                        <span>Posted by:</span>
-                                        <span style={{ 
-                                            fontWeight: "500",
-                                            color: "#3498db"
-                                        }}>{post.author}</span>
-                                        {post.createdAt && (
-                                            <span style={{ 
-                                                marginLeft: "auto",
-                                                fontSize: "0.85rem",
-                                                color: "#95a5a6"
-                                            }}>
-                                                {new Date(post.createdAt).toLocaleDateString()}
-                                            </span>
-                                        )}
-                                    </p>
-                                    <div style={{
-                                        color: "#34495e",
-                                        lineHeight: "1.7",
-                                        marginBottom: "20px",
-                                        fontSize: "1.05rem",
-                                        whiteSpace: "pre-line"
-                                    }}>
-                                        {post.content}
+                                        {post.author?.charAt(0)?.toUpperCase() || 'U'}
                                     </div>
-                                    
-                                    {post.mediaUrls && post.mediaUrls.length > 0 && (
-                                        <div style={{ 
-                                            margin: "0 -30px 25px -30px",
-                                            padding: "0 30px"
-                                        }}>
-                                            <div style={{ 
-                                                display: "grid",
-                                                gridTemplateColumns: post.mediaUrls.length === 1 ? "1fr" : "repeat(auto-fit, minmax(250px, 1fr))",
-                                                gap: "15px"
+                                    <div style={{
+                                        flex: 1,
+                                        fontWeight: "600",
+                                        fontSize: "14px"
+                                    }}>
+                                        {post.author || "Anonymous"}
+                                    </div>
+                                    <button 
+                                        onClick={() => deletePost(post._id)}
+                                        style={{
+                                            background: "none",
+                                            border: "none",
+                                            cursor: "pointer",
+                                            padding: "8px",
+                                            fontSize: "16px",
+                                            color: "#262626"
+                                        }}
+                                    >
+                                        ⋯
+                                    </button>
+                                </div>
+                                
+                                {/* Image container */}
+                                {post.mediaUrls && post.mediaUrls.length > 0 && (
+                                    <div style={{
+                                        width: "100%",
+                                        aspectRatio: "1/1", // Square aspect ratio like Instagram
+                                        backgroundColor: "#fafafa",
+                                        position: "relative",
+                                        overflow: "hidden"
+                                    }}>
+                                        {post.mediaUrls.length === 1 ? (
+                                            <div style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center"
                                             }}>
-                                                {post.mediaUrls.map((url, index) => (
+                                                {!post.mediaTypes || post.mediaTypes[0]?.startsWith('image/') ? (
+                                                    <LazyLoadImage
+                                                        src={post.mediaUrls[0]}
+                                                        alt={`Post media`}
+                                                        effect="blur"
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "100%",
+                                                            objectFit: "cover",
+                                                            cursor: "pointer"
+                                                        }}
+                                                        onClick={() => window.open(post.mediaUrls[0], '_blank')}
+                                                    />
+                                                ) : (
+                                                    <video
+                                                        src={post.mediaUrls[0]}
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "100%",
+                                                            objectFit: "cover"
+                                                        }}
+                                                        controls
+                                                        playsInline
+                                                    />
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <div style={{
+                                                display: "grid",
+                                                gridTemplateColumns: "repeat(2, 1fr)",
+                                                width: "100%",
+                                                height: "100%",
+                                                gap: "2px"
+                                            }}>
+                                                {post.mediaUrls.slice(0, 4).map((url, index) => (
                                                     <div key={index} style={{
-                                                        borderRadius: "8px",
-                                                        overflow: "hidden",
                                                         position: "relative",
-                                                        aspectRatio: post.mediaTypes?.[index]?.startsWith('video/') ? "16/9" : "1",
-                                                        backgroundColor: "#f8f9fa",
-                                                        transition: "transform 0.3s ease"
+                                                        overflow: "hidden"
                                                     }}>
                                                         {!post.mediaTypes || post.mediaTypes[index]?.startsWith('image/') ? (
                                                             <LazyLoadImage
@@ -776,261 +815,210 @@ function SkillSharingPosts() {
                                                                 playsInline
                                                             />
                                                         )}
-                                                        <div style={{
-                                                            position: "absolute",
-                                                            bottom: "10px",
-                                                            right: "10px",
-                                                            backgroundColor: "rgba(0,0,0,0.7)",
-                                                            color: "white",
-                                                            padding: "4px 10px",
-                                                            borderRadius: "4px",
-                                                            fontSize: "0.8rem",
-                                                            fontWeight: "500"
-                                                        }}>
-                                                            {!post.mediaTypes || post.mediaTypes[index]?.startsWith('image/') ? "Image" : "Video"}
-                                                        </div>
+                                                        {post.mediaUrls.length > 4 && index === 3 && (
+                                                            <div style={{
+                                                                position: "absolute",
+                                                                top: 0,
+                                                                left: 0,
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                backgroundColor: "rgba(0,0,0,0.5)",
+                                                                display: "flex",
+                                                                justifyContent: "center",
+                                                                alignItems: "center",
+                                                                color: "white",
+                                                                fontSize: "1.5rem",
+                                                                fontWeight: "bold"
+                                                            }}>
+                                                                +{post.mediaUrls.length - 4}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 ))}
                                             </div>
-                                        </div>
-                                    )}
-                                    
-                                    {/* Social engagement section */}
+                                        )}
+                                    </div>
+                                )}
+                                
+                                {/* Action buttons (Like, Comment, Share) */}
+                                <div style={{
+                                    padding: "8px 16px"
+                                }}>
                                     <div style={{
-                                        borderTop: "1px solid #eee",
-                                        paddingTop: "20px",
-                                        marginTop: "20px"
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        marginBottom: "8px"
                                     }}>
-                                        {/* Like, Comment, Share buttons */}
                                         <div style={{
                                             display: "flex",
-                                            justifyContent: "space-between",
-                                            marginBottom: "15px"
+                                            gap: "16px"
                                         }}>
                                             <button 
                                                 onClick={() => handleLike(post._id)}
                                                 style={{
-                                                    backgroundColor: "transparent",
+                                                    background: "none",
                                                     border: "none",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: "8px",
                                                     cursor: "pointer",
-                                                    color: likedPosts[post._id] ? "#e74c3c" : "#7f8c8d",
-                                                    fontWeight: "500",
-                                                    fontSize: "0.95rem",
-                                                    transition: "all 0.2s ease",
-                                                    padding: "8px 12px",
-                                                    borderRadius: "6px"
+                                                    padding: "8px",
+                                                    fontSize: "24px",
+                                                    color: likedPosts[post._id] ? "#ed4956" : "#262626"
                                                 }}
                                             >
-                                                {likedPosts[post._id] ? (
-                                                    <span style={{ color: "#e74c3c" }}>❤️</span>
-                                                ) : (
-                                                    <span>🤍</span>
-                                                )}
-                                                Like ({formatNumber(post.likes || 0)})
+                                                {likedPosts[post._id] ? "❤️" : "🤍"}
                                             </button>
-                                            
                                             <button 
                                                 style={{
-                                                    backgroundColor: "transparent",
+                                                    background: "none",
                                                     border: "none",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: "8px",
                                                     cursor: "pointer",
-                                                    color: "#7f8c8d",
-                                                    fontWeight: "500",
-                                                    fontSize: "0.95rem",
-                                                    transition: "all 0.2s ease",
-                                                    padding: "8px 12px",
-                                                    borderRadius: "6px"
+                                                    padding: "8px",
+                                                    fontSize: "24px",
+                                                    color: "#262626"
                                                 }}
                                             >
-                                                <span>💬</span> Comment ({formatNumber(post.comments?.length || 0)})
+                                                💬
                                             </button>
-                                            
                                             <button 
                                                 onClick={() => sharePost(post._id)}
                                                 style={{
-                                                    backgroundColor: "transparent",
+                                                    background: "none",
                                                     border: "none",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: "8px",
                                                     cursor: "pointer",
-                                                    color: "#7f8c8d",
-                                                    fontWeight: "500",
-                                                    fontSize: "0.95rem",
-                                                    transition: "all 0.2s ease",
-                                                    padding: "8px 12px",
-                                                    borderRadius: "6px"
+                                                    padding: "8px",
+                                                    fontSize: "24px",
+                                                    color: "#262626"
                                                 }}
                                             >
-                                                <span>↗️</span> Share
+                                                ↗️
                                             </button>
                                         </div>
-                                        
-                                        {/* Comments section */}
-                                        <div style={{
-                                            backgroundColor: "#f9f9f9",
-                                            borderRadius: "8px",
-                                            padding: "15px",
-                                            marginBottom: "15px"
-                                        }}>
-                                            {/* Existing comments */}
-                                            {(post.comments || []).map((comment, index) => (
-                                                <div key={index} style={{
-                                                    marginBottom: "12px",
-                                                    paddingBottom: "12px",
-                                                    borderBottom: index < ((post.comments?.length || 0) - 1) ? "1px solid #eee" : "none"
-                                                }}>
-                                                    <div style={{
-                                                        display: "flex",
-                                                        alignItems: "flex-start",
-                                                        gap: "10px"
-                                                    }}>
-                                                        <div style={{
-                                                            width: "32px",
-                                                            height: "32px",
-                                                            borderRadius: "50%",
-                                                            backgroundColor: "#3498db",
-                                                            color: "white",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            fontWeight: "bold",
-                                                            fontSize: "0.8rem",
-                                                            flexShrink: "0"
-                                                        }}>
-                                                            {comment.author?.charAt(0)?.toUpperCase() || 'U'}
-                                                        </div>
-                                                        <div style={{ flex: "1" }}>
-                                                            <div style={{
-                                                                fontWeight: "600",
-                                                                fontSize: "0.9rem",
-                                                                marginBottom: "4px"
-                                                            }}>
-                                                                {comment.author || "Anonymous"}
-                                                            </div>
-                                                            <div style={{
-                                                                fontSize: "0.9rem",
-                                                                color: "#34495e"
-                                                            }}>
-                                                                {comment.text}
-                                                            </div>
-                                                            <div style={{
-                                                                fontSize: "0.75rem",
-                                                                color: "#95a5a6",
-                                                                marginTop: "4px",
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                gap: "10px"
-                                                            }}>
-                                                                <span>{new Date(comment.createdAt).toLocaleString()}</span>
-                                                                <button style={{
-                                                                    backgroundColor: "transparent",
-                                                                    border: "none",
-                                                                    color: "#3498db",
-                                                                    cursor: "pointer",
-                                                                    fontSize: "0.75rem",
-                                                                    padding: "0"
-                                                                }}>
-                                                                    Reply
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            
-                                            {/* Add comment input */}
-                                            <div style={{
-                                                display: "flex",
-                                                gap: "10px",
-                                                marginTop: "15px"
-                                            }}>
-                                                <input
-                                                    type="text"
-                                                    value={commentInputs[post._id] || ''}
-                                                    onChange={(e) => handleCommentChange(post._id, e.target.value)}
-                                                    placeholder="Write a comment..."
-                                                    style={{
-                                                        flex: "1",
-                                                        padding: "10px 15px",
-                                                        borderRadius: "20px",
-                                                        border: "1px solid #ddd",
-                                                        fontSize: "0.9rem",
-                                                        outline: "none",
-                                                        transition: "border-color 0.3s ease"
-                                                    }}
-                                                />
-                                                <button
-                                                    onClick={() => submitComment(post._id)}
-                                                    style={{
-                                                        backgroundColor: "#3498db",
-                                                        color: "white",
-                                                        border: "none",
-                                                        borderRadius: "20px",
-                                                        padding: "0 15px",
-                                                        cursor: "pointer",
-                                                        fontSize: "0.9rem",
-                                                        fontWeight: "500",
-                                                        transition: "all 0.2s ease"
-                                                    }}
-                                                >
-                                                    Post
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <button 
+                                            style={{
+                                                background: "none",
+                                                border: "none",
+                                                cursor: "pointer",
+                                                padding: "8px",
+                                                fontSize: "24px",
+                                                color: "#262626"
+                                            }}
+                                        >
+                                            ⭐
+                                        </button>
                                     </div>
                                     
-                                    {/* Edit/Delete buttons (for post owner) */}
-                                    <div style={{ 
-                                        display: "flex", 
-                                        gap: "15px",
-                                        justifyContent: "flex-end"
+                                    {/* Likes count */}
+                                    <div style={{
+                                        fontWeight: "600",
+                                        fontSize: "14px",
+                                        marginBottom: "8px"
                                     }}>
+                                        {formatNumber(post.likes || 0)} likes
+                                    </div>
+                                    
+                                    {/* Post content */}
+                                    <div style={{
+                                        fontSize: "14px",
+                                        marginBottom: "8px",
+                                        lineHeight: "1.5"
+                                    }}>
+                                        <span style={{
+                                            fontWeight: "600",
+                                            marginRight: "4px"
+                                        }}>{post.author || "Anonymous"}</span>
+                                        {post.content}
+                                    </div>
+                                    
+                                    {/* View all comments */}
+                                    {(post.comments?.length || 0) > 0 && (
                                         <button 
-                                            onClick={() => editPost(post)}
                                             style={{
-                                                backgroundColor: "#f39c12",
-                                                color: "white",
+                                                background: "none",
                                                 border: "none",
-                                                padding: "10px 20px",
-                                                borderRadius: "6px",
+                                                color: "#8e8e8e",
+                                                fontSize: "14px",
                                                 cursor: "pointer",
-                                                fontSize: "0.95rem",
-                                                fontWeight: "500",
-                                                transition: "all 0.2s ease",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: "8px"
+                                                padding: 0,
+                                                marginBottom: "8px"
                                             }}
                                         >
-                                            <span>✏️</span> Edit
+                                            View all {post.comments.length} comments
                                         </button>
-                                        <button 
-                                            onClick={() => deletePost(post._id)}
+                                    )}
+                                    
+                                    {/* Timestamp */}
+                                    <div style={{
+                                        color: "#8e8e8e",
+                                        fontSize: "10px",
+                                        textTransform: "uppercase",
+                                        marginBottom: "8px"
+                                    }}>
+                                        {new Date(post.createdAt).toLocaleDateString('en-US', {
+                                            month: 'short',
+                                            day: 'numeric',
+                                            year: 'numeric'
+                                        })}
+                                    </div>
+                                    
+                                    {/* Add comment */}
+                                    <div style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        borderTop: "1px solid #efefef",
+                                        paddingTop: "12px"
+                                    }}>
+                                        <input
+                                            type="text"
+                                            value={commentInputs[post._id] || ''}
+                                            onChange={(e) => handleCommentChange(post._id, e.target.value)}
+                                            placeholder="Add a comment..."
                                             style={{
-                                                backgroundColor: "#e74c3c",
-                                                color: "white",
+                                                flex: 1,
                                                 border: "none",
-                                                padding: "10px 20px",
-                                                borderRadius: "6px",
+                                                outline: "none",
+                                                fontSize: "14px",
+                                                padding: "4px 0"
+                                            }}
+                                        />
+                                        <button
+                                            onClick={() => submitComment(post._id)}
+                                            style={{
+                                                background: "none",
+                                                border: "none",
+                                                color: "#0095f6",
+                                                fontWeight: "600",
+                                                fontSize: "14px",
                                                 cursor: "pointer",
-                                                fontSize: "0.95rem",
-                                                fontWeight: "500",
-                                                transition: "all 0.2s ease",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: "8px"
+                                                opacity: commentInputs[post._id]?.trim() ? 1 : 0.5,
+                                                pointerEvents: commentInputs[post._id]?.trim() ? "auto" : "none"
                                             }}
                                         >
-                                            <span>🗑️</span> Delete
+                                            Post
                                         </button>
                                     </div>
+                                </div>
+                                
+                                {/* Edit button (for post owner) */}
+                                <div style={{ 
+                                    padding: "0 16px 16px",
+                                    display: "flex",
+                                    justifyContent: "flex-end"
+                                }}>
+                                    <button 
+                                        onClick={() => editPost(post)}
+                                        style={{
+                                            backgroundColor: "transparent",
+                                            border: "1px solid #dbdbdb",
+                                            color: "#262626",
+                                            padding: "6px 12px",
+                                            borderRadius: "4px",
+                                            cursor: "pointer",
+                                            fontSize: "14px",
+                                            fontWeight: "500",
+                                            transition: "all 0.2s ease"
+                                        }}
+                                    >
+                                        Edit Post
+                                    </button>
                                 </div>
                             </div>
                         ))}
